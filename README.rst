@@ -1,7 +1,7 @@
 HostMyDocs-python-client
 =========================
 
-|License| |travis|
+|travis| |PythonVersion| |PyPILastVersion| |License|
 
 This library provide a python client for `HostMyDocs`_ documentation hosting system
 
@@ -41,3 +41,10 @@ Example
 
 .. |travis| image:: https://travis-ci.org/TraceSoftwareInternational/HostMyDocs-python-client.svg?branch=master
     :target: https://travis-ci.org/TraceSoftwareInternational/HostMyDocs-python-client
+
+.. |PyPILastVersion| image:: https://img.shields.io/pypi/v/hostmydocs-client.svg
+    :target: https://pypi.org/project/hostmydocs-client
+
+.. |PythonVersion| image:: https://img.shields.io/pypi/pyversions/hostmydocs-client.svg
+    :alt: PyPI - Python Version
+    :target: https://pypi.org/project/hostmydocs-client
