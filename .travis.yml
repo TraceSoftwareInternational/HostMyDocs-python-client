@@ -1,0 +1,44 @@
+sudo: required
+language: python
+python:
+  - "3.5"
+  - "3.5-dev"
+  - "3.6"
+  - "3.6-dev"
+  - "3.7-dev"
+  - "pypy3.5"
+
+services:
+  - docker
+
+before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y zip curl
+  - wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz
+  - sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
+  - sudo chmod +x /usr/local/bin/dockerize
+  - docker pull tracesoftware/hostmydocs
+  - docker run -d -e CREDENTIALS=login:password -e SHOULD_SECURE=FALSE -p 127.0.0.1:8080:80 tracesoftware/hostmydocs
+  - dockerize -wait http://127.0.0.1:8080
+
+install:
+  - pip install -r requirements.txt
+
+script:
+  - python -m unittest discover -s tests
+  - if [ -n "${TRAVIS_TAG}" ] && [ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]; then
+      pip install Sphinx ;
+      sphinx-build -b html docs docs/output ;
+      cd docs ;
+      zip -r docs.zip output/ ;
+      curl -w "Status %{http_code}\n" --user ${HMD_USER_PASSWORD} -F "name=HostMyDocs-python-client" -F "version=${TRAVIS_TAG}" -F language=Python -F archive=@docs.zip $HMD_POST_URL ;
+      cd .. ;
+    fi
+
+deploy:
+  provider: pypi
+  user: "TraceSoftwareInternational"
+  password: $PYPI_PWD
+  on:
+    tags: true
+    python: '3.6'
