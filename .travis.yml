@@ -8,16 +8,13 @@ python:
   - "3.7-dev"
   - "pypy3.5"
 
-addons:
-  apt:
-    packages:
-    - zip
-    - curl
 
 services:
   - docker
 
 before_install:
+  - sudo apt-get -qq update
+  - sudo apt-get install -y zip curl
   - wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz
   - sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
   - sudo chmod +x /usr/local/bin/dockerize
