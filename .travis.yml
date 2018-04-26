@@ -8,7 +8,6 @@ python:
   - "3.7-dev"
   - "pypy3.5"
 
-
 services:
   - docker
 
@@ -25,3 +24,11 @@ install:
 
 script:
   - python -m unittest discover -s tests
+
+deploy:
+  provider: pypi
+  user: "TraceSoftwareInternational"
+  password: $PYPI_PWD
+  on:
+    tags: true
+    python: '3.6'
