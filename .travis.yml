@@ -17,7 +17,7 @@ before_install:
   - sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
   - sudo chmod +x /usr/local/bin/dockerize
   - docker pull tracesoftware/hostmydocs
-  - docker run -d -e CREDENTIALS=user:password -e SHOULD_SECURE=FALSE -p 127.0.0.1:8080:80 tracesoftware/hostmydocs
+  - docker run -d -e CREDENTIALS=login:password -e SHOULD_SECURE=FALSE -p 127.0.0.1:8080:80 tracesoftware/hostmydocs
   - dockerize -wait http://127.0.0.1:8080
 
 install:
