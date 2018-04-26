@@ -14,11 +14,11 @@ services:
 
 before_install:
   - wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz
-  - tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
-  - chmod +x ./dockerize
+  - sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
+  - chmod +x /usr/local/bin/dockerize
   - docker pull tracesoftware/hostmydocs
   - docker run -d -e CREDENTIALS=user:password -e SHOULD_SECURE=FALSE -p 127.0.0.1:8080:80 tracesoftware/hostmydocs
-  - ./dockerize -wait http://127.0.0.1:8080
+  - dockerize -wait http://127.0.0.1:8080
 
 install:
   - pip install -r requirements.txt
