@@ -53,7 +53,7 @@ class Client:
         finally:
             archive_stream.close()
 
-        if response.status_code == 200:
+        if response.status_code == requests.codes.ok:
             logging.info("Uploaded with success")
             return True
         else:
@@ -77,7 +77,7 @@ class Client:
             logging.error("Listing fail with error {}".format(error))
             return None
 
-        if response.status_code != 200:
+        if response.status_code != requests.codes.ok:
             logging.error("Listing fail with code {}".format(response.status_code))
             return None
 
