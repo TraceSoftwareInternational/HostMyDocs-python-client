@@ -8,6 +8,12 @@ python:
   - "3.7-dev"
   - "pypy3.5"
 
+addons:
+  apt:
+    packages:
+    - zip
+    - curl
+
 services:
   - docker
 
@@ -24,6 +30,15 @@ install:
 
 script:
   - python -m unittest discover -s tests
+  - if [ -n "${TRAVIS_TAG}" ] && [ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]; then
+    pip install Sphinx ;
+    sphinx-build -b html docs docs/output ;
+    cd docs ;
+    zip -r docs.zip output/ ;
+    curl -w "Status %{http_code}\n" --user ${HMD_USER_PASSWORD} -F "name=HostMyDocs-python-client" -F "version=${TRAVIS_TAG}" -F language=Python -F archive=@docs.zip $HMD_POST_URL ;
+    cd .. ;
+  fi
+
 
 deploy:
   provider: pypi
