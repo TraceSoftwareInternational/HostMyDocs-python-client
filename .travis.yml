@@ -27,7 +27,6 @@ install:
   - pip install pipenv
   - pipenv --python ${TRAVIS_PYTHON_VERSION}
   - pipenv sync --dev
-  - pipenv shell
 
 script:
   - pipenv check
