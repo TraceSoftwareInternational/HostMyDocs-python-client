@@ -14,20 +14,24 @@ services:
 before_install:
   - sudo apt-get -qq update
   - sudo apt-get install -y zip curl
+
   - wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz
   - sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz
   - sudo chmod +x /usr/local/bin/dockerize
+
   - docker pull tracesoftware/hostmydocs
   - docker run -d -e CREDENTIALS=login:password -e SHOULD_SECURE=FALSE -p 127.0.0.1:8080:80 tracesoftware/hostmydocs
   - dockerize -wait http://127.0.0.1:8080
 
 install:
-  - pip install -r requirements.txt
+  - pip install pipenv
+  - pipenv --python ${TRAVIS_PYTHON_VERSION}
+  - pipenv sync --dev
 
 script:
+  - pipenv check
   - python -m unittest discover -s tests
   - if [ -n "${TRAVIS_TAG}" ] && [ "${TRAVIS_PYTHON_VERSION}" == "3.6" ]; then
-      pip install Sphinx ;
       sphinx-build -b html docs docs/output ;
       cd docs ;
       zip -r docs.zip output/ ;
