@@ -24,6 +24,8 @@ before_install:
   - dockerize -wait http://127.0.0.1:8080
 
 install:
+  - pip install pipenv
+  - pipenv --python ${TRAVIS_PYTHON_VERSION}
   - pipenv sync --dev
   - pipenv shell
 
