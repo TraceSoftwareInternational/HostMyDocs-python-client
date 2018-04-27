@@ -9,5 +9,3 @@ requests = "*"
 [dev-packages]
 sphinx = "*"
 
-[requires]
-python_version = "3.5"
