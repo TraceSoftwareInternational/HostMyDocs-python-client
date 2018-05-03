@@ -9,3 +9,5 @@ requests = "*"
 [dev-packages]
 sphinx = "*"
 
+[scripts]
+deploy-testpypi = "python setup.py sdist upload -r testpypi"

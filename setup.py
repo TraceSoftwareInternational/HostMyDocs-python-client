@@ -3,8 +3,16 @@
 from setuptools import setup, find_packages
 from codecs import open
 from os import path, environ
+import json
 
 here = path.abspath(path.dirname(__file__))
+
+with open('Pipfile.lock') as fd:
+    lock_data = json.load(fd)
+    # We can fix version
+    # install_requires = ["{}>={}".format(package_name, package_data['version'].replace("=", "")) for package_name, package_data in lock_data['default'].items()]
+    install_requires = [package_name for package_name in lock_data['default'].keys()]
+    tests_require = [package_name for package_name in lock_data['develop'].keys()]
 
 setup(
     # This is the name of your project. The first time you publish this
@@ -103,7 +111,7 @@ setup(
     #
     # For an analysis of "install_requires" vs pip's requirements files see:
     # https://packaging.python.org/en/latest/requirements.html
-    # install_requires=['peppercorn'],  # Optional
+    install_requires=install_requires,  # Optional
 
     # List additional groups of dependencies here (e.g. development
     # dependencies). Users will be able to install these using the "extras"
@@ -117,6 +125,10 @@ setup(
     #     'dev': ['check-manifest'],
     #     'test': ['coverage'],
     # },
+
+    extras_require={  # Optional
+        'test': tests_require,
+    },
 
     # If there are data files included in your packages that need to be
     # installed, specify them here.
